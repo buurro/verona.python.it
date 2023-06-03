@@ -1,37 +1,44 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 const scene = new THREE.Scene();
-scene.background = null;
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / 2 / window.innerHeight,
-  0.1,
-  1000
-);
-const light = new THREE.DirectionalLight(0xffffff);
-const arenaGeometry = new THREE.CylinderGeometry(1, 1, 0.5, 32);
-const towerGeometry = new THREE.CylinderGeometry(0.3, 0.3, 2, 32);
-const fancyMaterial = new THREE.MeshPhysicalMaterial({
-  color: 0xaa00aa,
-});
-const arena = new THREE.Mesh(arenaGeometry, fancyMaterial);
-const torre = new THREE.Mesh(towerGeometry, fancyMaterial);
-torre.position.x = 2;
-scene.add(arena);
-arena.add(torre);
+const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+const light = new THREE.DirectionalLight(0xffffff, 1);
+const loader = new GLTFLoader();
 
-light.position.set(0, 1, 1).normalize();
-scene.add(light);
+let arena: THREE.Group = new THREE.Group();
+loader.load("/models/arena.glb", (gltf) => {
+  arena = gltf.scene;
+  arena.scale.set(0.5, 0.5, 0.5);
+  scene.add(arena);
+});
+
+let pivot = new THREE.Group();
+pivot.position.set(0, 0, 0);
+let antennaTelecom = new THREE.Group();
+loader.load("/models/antenna-telecom.glb", (gltf) => {
+  antennaTelecom = gltf.scene;
+  antennaTelecom.scale.set(0.2, 0.2, 0.2);
+  antennaTelecom.position.set(2, 0, 0);
+  pivot.add(antennaTelecom);
+  scene.add(pivot);
+});
+
+light.position.set(1, 1, 5).normalize();
+light.target = arena;
 
 camera.position.z = 5;
 camera.position.y = 2;
 camera.rotation.x = -0.5;
 
+scene.add(light);
+
 let renderer: THREE.WebGLRenderer;
 
 const animate = () => {
   requestAnimationFrame(animate);
-  arena.rotation.y += 0.01;
+  arena.rotation.y -= 0.01;
+  pivot.rotation.y += 0.01;
   renderer.render(scene, camera);
 };
 
