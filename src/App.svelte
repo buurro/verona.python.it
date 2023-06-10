@@ -4,6 +4,10 @@
   import Orbit from "./lib/Orbit.svelte";
 </script>
 
+<svelte:head>
+  <title>Python Verona</title>
+</svelte:head>
+
 <main
   class="min-w-screen grid min-h-screen w-full grid-cols-2 dark:bg-page-dark"
 >
