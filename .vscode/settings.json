@@ -4,6 +4,7 @@
   "prettier.tabWidth": 2,
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
+  "prettier.prettierPath": "./node_modules/prettier",
   "files.associations": {
     "app.css": "tailwindcss"
   }
