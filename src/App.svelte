@@ -4,7 +4,9 @@
   import Orbit from "./lib/Orbit.svelte";
 </script>
 
-<main class="min-h-screen min-w-screen dark:bg-page-dark grid grid-cols-2">
+<main
+  class="min-w-screen grid min-h-screen w-full grid-cols-2 dark:bg-page-dark"
+>
   <Content />
   <Orbit />
 </main>
